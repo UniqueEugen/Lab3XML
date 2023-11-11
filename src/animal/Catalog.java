@@ -3,31 +3,28 @@ package animal;
 import java.util.ArrayList;
 
 public class Catalog {
-    private ArrayList<Entity> books;
+    private ArrayList<Entity> animals;
 
     public Catalog() {
-        books = new ArrayList<>();
+        animals = new ArrayList<>();
     }
 
-    public ArrayList<Entity> getBooks() {
-        return books;
+    public ArrayList<Entity> getAnimals() {
+        return animals;
     }
 
-    public void setBooks(ArrayList<Entity> books) {
-        this.books = books;
+    public void setAnimals(ArrayList<Entity> animals) {
+        this.animals = animals;
     }
 
     public void push(Entity b) {
-        books.add(b);
+        animals.add(b);
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for (Entity b : books) {
-            sb.append(b.toString());
-        }
-        return sb.toString();
+        animals.forEach(animal->animal.toString());
+        return null;
     }
 
 }

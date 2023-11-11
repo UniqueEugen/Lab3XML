@@ -1,5 +1,7 @@
 package animal;
 
+import myLibrary.console.Console;
+
 import java.util.UUID;
 
 public class Entity {
@@ -35,7 +37,9 @@ public class Entity {
     }
 
     public void setDescription(String description) {
-        this.description = description;
+
+        this.description = description.replaceAll("`","\n");
+
     }
 
     public void setKind(String kind) {
@@ -52,8 +56,8 @@ public class Entity {
 
     @Override
     public String toString() {
-        System.out.println( "id=" + getId()+"\nЖивотное [вид: " + getKind() + ", подвид: " + getSubspecies() +
-                ", семейство: " + getType() + ", цена: " + getPrice() + "]\nОписание: "+getDescription());
+        Console.log("\nЖивотное [вид: " + getKind() + ", подвид: " + getSubspecies() +
+                ", семейство: " + getType() + ", цена: " + getPrice() + "]\nОписание: " + getDescription());
         return null;
     }
 

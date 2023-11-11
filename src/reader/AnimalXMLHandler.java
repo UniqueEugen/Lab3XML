@@ -2,9 +2,10 @@ package reader;
 
 import animal.Catalog;
 import animal.Entity;
+import myLibrary.console.Console;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-
-import java.util.jar.Attributes;
 
 public class AnimalXMLHandler extends DefaultHandler {
     Catalog myCatalog;
@@ -16,35 +17,56 @@ public class AnimalXMLHandler extends DefaultHandler {
     private boolean subspecies;
     boolean description;
     String currentCharacters;
-    public void startElement(String uri, String localName, String qName, Attributes attributes) {
-        if (qName.equalsIgnoreCase("catalog")) {
+    @Override
+    public void startElement(String uri, String localName,
+                             String qName, Attributes attributes) {
+        if (qName.equalsIgnoreCase("animals")) {
             myCatalog = new Catalog();
         } else if (qName.equalsIgnoreCase("animal")) {
             animal = new Entity();
-        } else if (qName.equalsIgnoreCase("type")) {
+        }
+        else if (qName.equalsIgnoreCase("type")) {
             type = true;
         } else if (qName.equalsIgnoreCase("subspecies")) {
             subspecies = true;
-        } else if (qName.equalsIgnoreCase("description")) {
+        }
+        else if (qName.equalsIgnoreCase("kind")) {
+            kind = true;
+        }
+        else if (qName.equalsIgnoreCase("price")) {
+            price = true;
+        }
+        else if (qName.equalsIgnoreCase("description")) {
             description = true;
         }
     }
 
     @Override
     public void endElement(String uri, String localName, String qName) {
-        if (qName.equalsIgnoreCase("catalog")) {
-            System.out.println("Done with catalog");
-            System.out.println(myCatalog.toString());
+        if (qName.equalsIgnoreCase("animals")) {
+            Console.log("Done with catalog");
+            Console.log(myCatalog.toString());
         } else if (qName.equalsIgnoreCase("animal")) {
             myCatalog.push(animal);
-            System.out.println(animal);
-        } else if (qName.equalsIgnoreCase("author")) {
-            animal.setAuthor(currentCharacters);
-            author = false;
-        } else if (qName.equalsIgnoreCase("title")) {
-            animal.setTitle(currentCharacters);
-            title = false;
+        } else if (qName.equalsIgnoreCase("type")) {
+            animal.setType(currentCharacters);
+            type=false;
+        } else if (qName.equalsIgnoreCase("subspecies")) {
+            animal.setSubspecies(currentCharacters);
+            subspecies=false;
+        }  else if (qName.equalsIgnoreCase("kind")) {
+            animal.setKind(currentCharacters);
+            kind = false;
+        }
+        else if (qName.equalsIgnoreCase("price")) {
+            try {
+                animal.setPrice(Double.parseDouble(currentCharacters));
+            }catch (Exception e){
+                animal.setPrice(0);
+            }
+            price = false;
         } else if (qName.equalsIgnoreCase("description")) {
+           // Console.log("asdad"+currentCharacters);
             animal.setDescription(currentCharacters);
             description = false;
         }
@@ -52,7 +74,12 @@ public class AnimalXMLHandler extends DefaultHandler {
 
     @Override
     public void characters(char ch[], int start, int length ) {
-        currentCharacters = new String(ch, start, length);
+       // Console.log(start+" "+ length);
+        currentCharacters = new String(ch, start, length).replace("\n", "").trim();
+    }
+    @Override
+    public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException {
+        //emit("IGNORABLE");
     }
 
 }

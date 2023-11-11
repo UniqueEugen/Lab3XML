@@ -11,7 +11,7 @@ import java.io.IOException;
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) {
-        String path = new File("C:/Users/User/Desktop/SAX_1/src/books.xml").getAbsolutePath();
+        String path = new File("E:/ПСП/DOM.xml").getAbsolutePath();
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser parser = factory.newSAXParser();
